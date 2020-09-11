@@ -25,7 +25,10 @@ import socket
 import struct
 import charSegmentation
 import utils
+import keras.backend.tensorflow_backend as tfback
 
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 ############################################################################################################################## 
 # Model and some files loading part
 ############################################################################################################################## 
@@ -53,18 +56,18 @@ def file_char_vattu_gunintam(file_name):
     return (part_1_1,part_1_2)
 
 # Model for only characters
-with open('/models/main_character/ours/model_chars.json') as infile:
+with open('../models/main_character/ours/model_chars_tccnn-l.json') as infile:
     json_char = json.load(infile)
 
 model_1 = model_from_json(json_char)
-model_1.load_weights('/models/main_character/ours/model_chars_weights.hdf5')
+model_1.load_weights('../models/main_character/ours/model_chars_tccnn-l.hdf5')
 
 # Model for vattulu and gunintalu
-with open('/models/vattu_gunintam/ours/model_v_g.json') as infile:
+with open('../models/vattu_gunintam/ours/model_v_g.json') as infile:
     json_char = json.load(infile)
 
 model_2 = model_from_json(json_char)
-model_2.load_weights('/models/vattu_gunintam/ours/model_v_g_weights.hdf5')
+model_2.load_weights('../models/vattu_gunintam/ours/model_v_g_weights.hdf5')
 
 (char_1,char_2) = file_char_vattu_gunintam('char.txt')
 
@@ -337,7 +340,7 @@ while(1):
     file.close()
     
     # processing of speech
-    os.system("espeak -m -v te -s 100 -f output/result.html -w output/speech.wav")
+    #os.system("espeak -m -v te -s 100 -f output/result.html -w output/speech.wav")
     
     break
 
